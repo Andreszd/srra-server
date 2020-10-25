@@ -3,10 +3,9 @@ const connectionDB = require('./config/db')
 const server = new Server(4000)
 
 
-connectionDB.setConnectionDb().then(()=>{
-    require('./models/User')
-})
-
-
+connectionDB.setConnectionDb()
 server.run()
+
+
+
 

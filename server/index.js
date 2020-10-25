@@ -26,7 +26,9 @@ class Server{
         })
     }
     setModel(){
-        
+        require('../models/User')        
+        require('../models/Rol')
+        require('../models/user_rol')
     }
     
 }

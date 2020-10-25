@@ -20,13 +20,13 @@ class ConnectionDB{
             },
             logging : false,
             define:{
-                timestamps:false
+                timestamps:true
             }
         })
     }
     async setConnectionDb(){
         try {
-            await this.driver.authenticate()
+            await this.driver.sync()
             console.log('connection has been estalished succesfully')
         } catch (error) {
             console.log('Unable to connect to the database',error)

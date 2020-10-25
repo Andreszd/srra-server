@@ -1,6 +1,8 @@
 const Sequelize  = require('sequelize')
 const connectionDB = require('../config/db')
 const bcrypt = require('bcrypt')
+
+const UserRol = require('./user_rol')
 const User = connectionDB.getConnectionDB().define('users', {
     id: {
         type: Sequelize.INTEGER,
@@ -28,11 +30,21 @@ const User = connectionDB.getConnectionDB().define('users', {
         }
     }
 },{
-    instanceMethods:{
-        generateHash : function(password){
-            return bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+    hooks:{
+        
+        beforeCreate : async function(user){
+            const { dataValues } = user
+            const { password } = dataValues
+            console.log(user)
+            const salt = await bcrypt.genSalt(10)
+            const passwordHash = await  bcrypt.hash(password, salt)
+            user.password = passwordHash
         }
     },
-    freezeTableName: true
+    freezeTableName: true,
 })
+User.prototype.passwordVerify = function(password){
+    return bcrypt.compareSync(password, this.password)
+}
+User.hasMany(UserRol)
 module.exports = User
