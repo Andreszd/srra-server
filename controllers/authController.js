@@ -3,13 +3,18 @@ const AuthenticateUser = require('../Utils/AuthenticateUser')
 exports.authenticateUser = (req, res, next) =>{
 
 }
-exports.loginUser = (req, res) =>{
+exports.loginUser = async (req, res) =>{
     const { email, password } = req.body
     try {
         const auth = new AuthenticateUser(email, password)
-        if(auth.authUser()){
-            res.json({
-                msg:'user authenticate'
+        const userExist = await auth.authUser()
+        if(userExist){
+            const rol = await auth.findRol()
+            if(!rol) return res.status(400).json({message: 'rol not found'})
+            res.status(200).json({
+                msg:'user authenticate',
+                user: req.body,
+                rol
             })
         }else{
             throw new Error('error')
