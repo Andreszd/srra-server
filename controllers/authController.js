@@ -8,17 +8,14 @@ exports.loginUser = async (req, res) =>{
     try {
         const auth = new AuthenticateUser(email, password)
         const userExist = await auth.authUser()
-        if(userExist){
-            const rol = await auth.findRol()
-            if(!rol) return res.status(400).json({message: 'rol not found'})
-            res.status(200).json({
-                msg:'user authenticate',
-                user: req.body,
-                rol
-            })
-        }else{
-            throw new Error('error')
-        }    
+        if(!userExist) return res.status(400).json({message: 'user not found'})
+        const rol = await auth.findRol()
+        if(!rol) return res.status(400).json({message: 'rol not found'})
+        res.status(200).json({
+            msg:'user authenticate',
+            user: req.body,
+            rol
+        })
     } catch (error) {
         console.log(error, error.message)
     }

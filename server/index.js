@@ -1,35 +1,37 @@
 const path = require('path')
 const routesUser = require('../routes/user.routes')
 const authRoutes = require('../routes/auth.routes')
-class Server{
-    constructor(port){
+class Server {
+    constructor(port) {
         this.express = require('express')
+        this.cors = require('cors')
         this.app = this.express()
         this.port = port
         this.initConfig()
         this.setModel()
         this.setRoutes()
     }
-    initConfig(){
-        this.app.set('port',process.env.PORT || this.port)    
+    initConfig() {
+        this.app.use(this.cors())
+        this.app.set('port', process.env.PORT || this.port)
         this.app.use(this.express.static(path.join(__dirname, 'public')))
         this.app.use(this.express.urlencoded({extended: true}))
         this.app.use(this.express.json())
     }
-    setRoutes(){
-        this.app.use('/',routesUser)
+    setRoutes() {
+        this.app.use('/', routesUser)
         this.app.use('/', authRoutes)
     }
-    run(){
-        this.app.listen(this.app.get('port'),()=>{
+    run() {
+        this.app.listen(this.app.get('port'), () => {
             console.log(`server run in ${this.app.get('port')}`)
         })
     }
-    setModel(){
-        require('../models/User')        
+    setModel() {
+        require('../models/User')
         require('../models/Rol')
         require('../models/user_rol')
     }
-    
+
 }
 module.exports = Server

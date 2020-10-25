@@ -11,7 +11,7 @@ class AuthenticateUser{
             const userExist = await this.findUser()
             let flag = false
             if(userExist){
-                this.verifyPassword(userExist) ?  flag = true : flag
+                this.verifyPassword(userExist) === true?  flag = true : flag
             }else{
                 flag = false
             }
@@ -22,17 +22,14 @@ class AuthenticateUser{
     }
     async findUser(){
         try {
-            return  await modelUser.findOne({ where : { email: this.email }})
+            return modelUser.findOne({ where : { email: this.email }})
         } catch (error) {
             console.log(error)
         }
     }
-    async verifyPassword(user){
-        try {
-            return user.passwordVerify(this.password)
-        } catch (error) {
-            console.log(error)
-        }
+    verifyPassword(user){
+        return user.passwordVerify(this.password)
+        
     }   
     async findRol(){
         try {
