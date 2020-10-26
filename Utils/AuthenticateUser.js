@@ -1,6 +1,7 @@
 const modelUser = require('../models/User')
 const modelRol = require('../models/Rol')
 const modelUserRol = require('../models/user_rol')
+
 class AuthenticateUser{
     constructor(email, password){
         this.email = email

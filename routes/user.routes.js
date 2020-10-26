@@ -1,8 +1,7 @@
 const express = require('express')
 const routes = express.Router()
-
-routes.get('/API/user',(req, res)=>{
-    res.send('ola')
-})
+const { verifyToken  } = require('../middlewares/auth')
+const { userAuthenticate } = require('../controllers/userController')
+routes.get('/api/auth',verifyToken, userAuthenticate)
 
 module.exports = routes

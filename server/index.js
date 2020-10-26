@@ -1,10 +1,12 @@
 const path = require('path')
 const routesUser = require('../routes/user.routes')
 const authRoutes = require('../routes/auth.routes')
+
 class Server {
     constructor(port) {
         this.express = require('express')
         this.cors = require('cors')
+        this.env = require('dotenv').config()
         this.app = this.express()
         this.port = port
         this.initConfig()
@@ -31,6 +33,7 @@ class Server {
         require('../models/User')
         require('../models/Rol')
         require('../models/user_rol')
+        require('../models/Upload')
     }
 
 }
