@@ -4,6 +4,7 @@ const server = new Server(4000)
 
 
 connectionDB.setConnectionDb()
+server.setStaticPath(__dirname)
 server.run()
 
 

@@ -1,5 +1,5 @@
 exports.userAuthenticate = (req, res)=>{
-    res.json({
-        id: req.user
+    res.status(200).json({
+        user: req.user
     })
 }
